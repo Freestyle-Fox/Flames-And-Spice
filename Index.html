@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <title>Flame & Spice · Premium Dining</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&family=Cinzel:wght@400;600;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background: #0b0807; 
+      color: #f5f0eb; 
+      overflow-x: hidden; 
+    }
+
+    .font-serif { font-family: 'Playfair Display', serif; }
+    .font-cinzel { font-family: 'Cinzel', serif; }
+
+    /* Glassmorphism */
+    .glass { 
+      background: rgba(20, 12, 10, 0.6); 
+      backdrop-filter: blur(12px); 
+      -webkit-backdrop-filter: blur(12px); 
+      border-bottom: 1px solid rgba(255, 215, 0, 0.15); 
+    }
+
+    /* Enhanced Text Effects */
+    .glow-gold { 
+      text-shadow: 0 0 30px rgba(255, 215, 0, 0.4), 0 0 60px rgba(255, 215, 0, 0.2), 0 0 90px rgba(255, 107, 53, 0.1); 
+    }
+
+    .text-gradient-gold {
+      background: linear-gradient(135deg, #ffd700 0%, #ff8c00 30%, #ffd700 60%, #ff6b35 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      background-size: 200% 200%;
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    .text-gradient-fire {
+      background: linear-gradient(180deg, #fff 0%, #ffd700 40%, #ff8c00 70%, #ff4500 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .text-glow-white {
+      text-shadow: 0 0 20px rgba(255,255,255,0.3), 0 0 40px rgba(255,215,0,0.1);
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Buttons */
+    .btn-gold { 
+      background: linear-gradient(145deg, #d4a745, #b8860b); 
+      box-shadow: 0 8px 32px rgba(184, 134, 11, 0.4); 
+      transition: all 0.3s ease; 
+    }
+    .btn-gold:hover { 
+      transform: translateY(-3px) scale(1.02); 
+      box-shadow: 0 12px 40px rgba(184, 134, 11, 0.6); 
+    }
+
+    /* 3D Card */
+    .card-3d { 
+      perspective: 1000px; 
+      transform-style: preserve-3d; 
+      transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); 
+    }
+    .card-3d:hover { 
+      transform: rotateY(6deg) rotateX(4deg) scale(1.02); 
+    }
+
+    /* Masonry */
+    .masonry img { 
+      transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+    }
+    .masonry img:hover { 
+      transform: scale(1.08) brightness(1.2); 
+      box-shadow: 0 20px 60px rgba(255, 215, 0, 0.25); 
+    }
+
+    /* Floating Animation */
+    .floating { 
+      animation: float 6s ease-in-out infinite; 
+    }
+    @keyframes float { 
+      0% { transform: translateY(0px); } 
+      50% { transform: translateY(-18px); } 
+      100% { transform: translateY(0px); } 
+    }
+
+    /* Carousel */
+    .carousel-3d { 
+      display: flex; 
+      gap: 1.5rem; 
+      overflow-x: auto; 
+      scroll-snap-type: x mandatory; 
+      padding: 2rem 0; 
+    }
+    .carousel-3d>* { 
+      flex: 0 0 260px; 
+      scroll-snap-align: start; 
+    }
+
+    .food-image { 
+      width: 100%; 
+      height: 180px; 
+      object-fit: cover; 
+      border-radius: 1rem; 
+      background: #1a1412; 
+    }
+
+    /* Booking Inputs */
+    .booking-input { 
+      background: rgba(255, 255, 255, 0.05); 
+      border: 1px solid rgba(255, 215, 0, 0.2); 
+      border-radius: 1rem; 
+      padding: 0.8rem 1.2rem; 
+      color: #f5f0eb; 
+      width: 100%; 
+      transition: all 0.3s; 
+    }
+    .booking-input:focus { 
+      outline: none; 
+      border-color: #d4a745; 
+      box-shadow: 0 0 20px rgba(212, 167, 69, 0.2); 
+    }
+    .booking-input::placeholder { 
+      color: rgba(255,255,255,0.3); 
+    }
+
+    .btn-reserve { 
+      background: linear-gradient(145deg, #d4a745, #b8860b); 
+      border: none; 
+      padding: 0.9rem; 
+      border-radius: 2rem; 
+      font-weight: 700; 
+      letter-spacing: 0.1em; 
+      color: #0b0807; 
+      transition: all 0.3s; 
+      width: 100%; 
+    }
+    .btn-reserve:hover { 
+      transform: scale(1.02); 
+      box-shadow: 0 8px 30px rgba(184, 134, 11, 0.5); 
+    }
+
+    /* Menu Grid */
+    .menu-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+      gap: 2rem; 
+    }
+    .menu-item { 
+      background: rgba(20, 14, 10, 0.82); 
+      border: 1px solid rgba(255,215,0,0.15); 
+      border-radius: 1.5rem; 
+      padding: 1.5rem; 
+      transition: all 0.3s; 
+      backdrop-filter: blur(12px); 
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    .menu-item:hover { 
+      background: rgba(30, 20, 14, 0.9); 
+      border-color: rgba(255,215,0,0.35); 
+      transform: translateY(-6px); 
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(255,215,0,0.1); 
+    }
+    .menu-item img { 
+      width: 100%; 
+      height: 180px; 
+      object-fit: cover; 
+      border-radius: 1rem; 
+    }
+    .badge-popular { 
+      background: rgba(212, 167, 69, 0.25); 
+      color: #ffd700; 
+      font-size: 0.65rem; 
+      padding: 0.2rem 0.8rem; 
+      border-radius: 2rem; 
+      letter-spacing: 0.05em; 
+      font-weight: 600;
+    }
+
+    /* ===== ATTRACTIVE PIZZA BACKGROUND - VISIBLE IN ALL SECTIONS ===== */
+    .pizza-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: url('https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/9c8fb274c51f5ccf96064fc6b0d1058f57d281b4.jpg');
+      background-size: cover;
+      background-position: center;
+      z-index: 0;
+    }
+
+    /* ===== WARM AMBER/BRONZE OVERLAY (not black!) ===== */
+    .pizza-bg-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: 
+        radial-gradient(ellipse at 20% 50%, rgba(139, 69, 19, 0.4) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(184, 134, 11, 0.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(139, 69, 19, 0.35) 0%, transparent 50%),
+        linear-gradient(135deg, rgba(60, 30, 10, 0.6) 0%, rgba(40, 20, 8, 0.7) 50%, rgba(60, 30, 10, 0.6) 100%);
+      z-index: 1;
+    }
+
+    /* Warm glow overlay */
+    .warm-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: 
+        radial-gradient(circle at 30% 70%, rgba(255, 140, 0, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 70% 30%, rgba(255, 215, 0, 0.06) 0%, transparent 40%);
+      z-index: 2;
+      pointer-events: none;
+      animation: warmPulse 8s ease-in-out infinite;
+    }
+
+    @keyframes warmPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    /* ===== SECTIONS - TRANSPARENT TO SHOW PIZZA BG ===== */
+    .section-transparent {
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Testimonial cards */
+    .testimonial-card {
+      background: rgba(20, 14, 10, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,215,0,0.12);
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      transition: all 0.3s;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+    .testimonial-card:hover {
+      background: rgba(30, 20, 14, 0.85);
+      border-color: rgba(255,215,0,0.25);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3), 0 0 20px rgba(255,215,0,0.05);
+    }
+
+    /* Form container */
+    .form-container {
+      background: rgba(20, 14, 10, 0.8);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255,215,0,0.15);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+
+    /* About card */
+    .about-card {
+      background: rgba(20, 14, 10, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,215,0,0.12);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+
+    /* Stat box */
+    .stat-box {
+      background: rgba(20, 14, 10, 0.75);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,215,0,0.15);
+      border-radius: 1rem;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+
+    /* Gallery item */
+    .gallery-item {
+      background: rgba(20, 14, 10, 0.75);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 1rem;
+      overflow: hidden;
+      transition: all 0.3s;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+    .gallery-item:hover {
+      border-color: rgba(255,215,0,0.3);
+      transform: scale(1.02);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3), 0 0 20px rgba(255,215,0,0.1);
+    }
+
+    /* Carousel card */
+    .carousel-card {
+      background: rgba(20, 14, 10, 0.82);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 1.5rem;
+      padding: 1rem;
+      transition: all 0.3s;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    .carousel-card:hover {
+      border-color: rgba(255,215,0,0.25);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 20px rgba(255,215,0,0.1);
+    }
+
+    /* Particle effects */
+    .particle {
+      position: fixed;
+      width: 6px;
+      height: 6px;
+      background: #ffd700;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0;
+      animation: particleFloat 4s ease-in-out infinite;
+      z-index: 999;
+    }
+
+    @keyframes particleFloat {
+      0%, 100% { opacity: 0; transform: translateY(0) scale(0); }
+      50% { opacity: 0.6; transform: translateY(-100px) scale(1); }
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s ease;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Enhanced section titles */
+    .section-title {
+      position: relative;
+      display: inline-block;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #d4a745, transparent);
+      border-radius: 2px;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) { 
+      .menu-grid { grid-template-columns: 1fr; } 
+      .carousel-3d>* { flex: 0 0 200px; } 
+      .food-image { height: 140px; } 
+    }
+  </style>
+<base target="_blank">
+</head>
+<body>
+
+  <!-- ===== ULTRA REALISTIC PIZZA BACKGROUND - VISIBLE EVERYWHERE ===== -->
+  <div class="pizza-bg"></div>
+
+  <!-- ===== WARM AMBER/BRONZE OVERLAY (NOT BLACK!) ===== -->
+  <div class="pizza-bg-overlay"></div>
+  <div class="warm-glow"></div>
+
+  <!-- MAIN CONTENT -->
+  <div class="relative z-10">
+
+    <!-- NAV -->
+    <nav class="glass fixed top-0 left-0 w-full z-50 px-4 sm:px-8 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="text-2xl sm:text-3xl font-cinzel font-bold text-amber-400 glow-gold">✦</span>
+        <span class="text-xl sm:text-2xl font-cinzel font-semibold tracking-wide text-white/90">Flame & Spice</span>
+      </div>
+      <div class="hidden md:flex items-center gap-6 text-sm uppercase tracking-wider font-light text-white/70">
+        <a href="#home" class="hover:text-amber-400 transition">Home</a>
+        <a href="#menu" class="hover:text-amber-400 transition">Menu</a>
+        <a href="#about" class="hover:text-amber-400 transition">About</a>
+        <a href="#gallery" class="hover:text-amber-400 transition">Gallery</a>
+        <a href="#reservations" class="hover:text-amber-400 transition">Reservations</a>
+        <a href="#contact" class="hover:text-amber-400 transition">Contact</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="#reservations" class="hidden sm:inline-block btn-gold text-black text-xs font-bold px-4 py-2 rounded-full tracking-widest">RESERVE</a>
+        <button class="md:hidden text-white/80 text-2xl">☰</button>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="home" class="min-h-screen flex items-center justify-center text-center px-4 pt-24 pb-12 relative section-transparent">
+      <div class="max-w-4xl mx-auto">
+        <p class="text-amber-400 text-sm tracking-[0.4em] uppercase mb-4 font-cinzel">Premium Dining Experience</p>
+        <h1 class="font-serif text-5xl sm:text-7xl md:text-8xl font-bold leading-[1.1] glow-gold">
+          <span class="text-gradient-fire">Where Every</span><br>
+          <span class="text-gradient-gold">Bite Tells</span><br>
+          <span class="text-glow-white">A Story</span>
+        </h1>
+        <p class="mt-6 text-base sm:text-lg md:text-xl text-white/80 max-w-2xl mx-auto font-light tracking-wide leading-relaxed">
+          Handcrafted recipes with <span class="text-amber-400 font-semibold">unforgettable flavors</span> and the legendary <span class="text-amber-400 font-semibold">cheese pull</span> that stretches beyond imagination.
+        </p>
+        <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="#menu" class="btn-gold text-black font-bold px-8 py-4 rounded-full text-sm tracking-widest transition-all">EXPLORE MENU</a>
+          <a href="#reservations" class="border border-amber-400/40 text-amber-300 hover:bg-amber-400/10 px-8 py-4 rounded-full text-sm tracking-widest transition-all backdrop-blur-sm">RESERVE A TABLE</a>
+        </div>
+        <div class="mt-16 flex justify-center gap-6 text-amber-400/60 text-xs uppercase tracking-[0.2em] font-cinzel">
+          <span>✦ Michelin Star</span>
+          <span>✦ Fire & Spice</span>
+          <span>✦ Since 2014</span>
+        </div>
+      </div>
+      <div class="absolute bottom-10 left-10 w-16 h-16 rounded-full bg-amber-500/20 blur-3xl floating"></div>
+      <div class="absolute top-20 right-10 w-24 h-24 rounded-full bg-orange-500/20 blur-3xl floating" style="animation-delay:2s;"></div>
+    </section>
+
+    <!-- 3D FOOD CAROUSEL -->
+    <section class="py-16 md:py-24 section-transparent" id="menu">
+      <div class="text-center mb-12">
+        <span class="text-amber-400 text-sm tracking-[0.3em] uppercase font-cinzel">Signature Dishes</span>
+        <h2 class="font-serif text-4xl sm:text-5xl font-bold mt-2 text-gradient-gold section-title">Interactive 3D Carousel</h2>
+        <p class="text-white/60 mt-4 max-w-xl mx-auto">Rotate & explore · hover for details</p>
+      </div>
+      <div class="carousel-3d snap-x snap-mandatory overflow-x-auto pb-6 -mx-4 px-4">
+        <div class="card-3d carousel-card reveal">
+          <img src="https://kimi-web-img.moonshot.cn/img/www.shutterstock.com/c44cead93134449fce97ce7282e5facaaebb68a9.jpg" alt="Burger" class="food-image" />
+          <h3 class="font-serif text-xl mt-4 text-white">Classic Beef</h3>
+          <p class="text-white/50 text-sm">$24 · 650 kcal</p>
+          <span class="inline-block mt-2 text-xs bg-amber-400/20 text-amber-300 px-3 py-1 rounded-full">Popular</span>
+        </div>
+        <div class="card-3d carousel-card reveal">
+          <img src="https://kimi-web-img.moonshot.cn/img/i.sstatic.net/7eebc35e5b268681d9aeb570cf15f4547e170d20.jpg" alt="Pizza" class="food-image" />
+          <h3 class="font-serif text-xl mt-4 text-white">Pepperoni Supreme</h3>
+          <p class="text-white/50 text-sm">$28 · 720 kcal</p>
+          <span class="inline-block mt-2 text-xs bg-amber-400/20 text-amber-300 px-3 py-1 rounded-full">Chef's Pick</span>
+        </div>
+        <div class="card-3d carousel-card reveal">
+          <img src="https://kimi-web-img.moonshot.cn/img/videocdn.cdnpk.net/061e616faaaecbe6cb28f94aad9615ff944c5d5f.jpg" alt="Steak" class="food-image" />
+          <h3 class="font-serif text-xl mt-4 text-white">Grilled Ribeye</h3>
+          <p class="text-white/50 text-sm">$42 · 890 kcal</p>
+        </div>
+        <div class="card-3d carousel-card reveal">
+          <img src="https://kimi-web-img.moonshot.cn/img/www.recipetineats.com/6506819e353866785839e568d75187f6498ab19c.jpg" alt="Cake" class="food-image" />
+          <h3 class="font-serif text-xl mt-4 text-white">Lava Cake</h3>
+          <p class="text-white/50 text-sm">$16 · 480 kcal</p>
+          <span class="inline-block mt-2 text-xs bg-amber-400/20 text-amber-300 px-3 py-1 rounded-full">Sweet</span>
+        </div>
+        <div class="card-3d carousel-card reveal">
+          <img src="https://kimi-web-img.moonshot.cn/img/healthylittlevittles.com/6457a31ad5c06b555cb148c4fb2f8f00dc19b035.jpg" alt="Mocktail" class="food-image" />
+          <h3 class="font-serif text-xl mt-4 text-white">Smoked Mocktail</h3>
+          <p class="text-white/50 text-sm">$18 · 120 kcal</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MENU GRID -->
+    <section class="py-16 md:py-24 border-t border-white/5 section-transparent">
+      <div class="text-center mb-12">
+        <span class="text-amber-400 text-sm tracking-[0.3em] uppercase font-cinzel">Our Craft</span>
+        <h2 class="font-serif text-4xl sm:text-5xl font-bold mt-2 text-gradient-gold section-title">Full Menu</h2>
+      </div>
+      <div class="menu-grid max-w-7xl mx-auto px-4">
+        <div class="menu-item reveal">
+          <img src="https://kimi-web-img.moonshot.cn/img/www.shutterstock.com/c44cead93134449fce97ce7282e5facaaebb68a9.jpg" alt="Burger" />
+          <div class="flex justify-between items-start mt-3">
+            <h3 class="font-serif text-xl text-white">Classic Beef Burger</h3>
+            <span class="text-amber-400 font-bold text-lg">$24</span>
+          </div>
+          <p class="text-white/60 text-sm mt-1">Juicy beef, cheddar, lettuce, tomato, secret sauce.</p>
+          <span class="badge-popular mt-2 inline-block">Popular</span>
+        </div>
+        <div class="menu-item reveal">
+          <img src="https://kimi-web-img.moonshot.cn/img/i.sstatic.net/7eebc35e5b268681d9aeb570cf15f4547e170d20.jpg" alt="Pizza" />
+          <div class="flex justify-between items-start mt-3">
+            <h3 class="font-serif text-xl text-white">Pepperoni Supreme</h3>
+            <span class="text-amber-400 font-bold text-lg">$28</span>
+          </div>
+          <p class="text-white/60 text-sm mt-1">San Marzano tomato, fresh mozzarella, basil, olive oil.</p>
+          <span class="badge-popular mt-2 inline-block">Chef's Pick</span>
+        </div>
+        <div class="menu-item reveal">
+          <img src="https://kimi-web-img.moonshot.cn/img/videocdn.cdnpk.net/061e616faaaecbe6cb28f94aad9615ff944c5d5f.jpg" alt="Steak" />
+          <div class="flex justify-between items-start mt-3">
+            <h3 class="font-serif text-xl text-white">Grilled Ribeye Steak</h3>
+            <span class="text-amber-400 font-bold text-lg">$42</span>
+          </div>
+          <p class="text-white/60 text-sm mt-1">Prime ribeye, herb butter, roasted vegetables.</p>
+          <span class="badge-popular mt-2 inline-block">Premium</span>
+        </div>
+        <div class="menu-item reveal">
+          <img src="https://kimi-web-img.moonshot.cn/img/www.recipetineats.com/6506819e353866785839e568d75187f6498ab19c.jpg" alt="Dessert" />
+          <div class="flex justify-between items-start mt-3">
+            <h3 class="font-serif text-xl text-white">Chocolate Lava</h3>
+            <span class="text-amber-400 font-bold text-lg">$16</span>
+          </div>
+          <p class="text-white/60 text-sm mt-1">Warm chocolate cake with molten center, vanilla ice cream.</p>
+        </div>
+        <div class="menu-item reveal">
+          <img src="https://kimi-web-img.moonshot.cn/img/healthylittlevittles.com/6457a31ad5c06b555cb148c4fb2f8f00dc19b035.jpg" alt="Drink" />
+          <div class="flex justify-between items-start mt-3">
+            <h3 class="font-serif text-xl text-white">Smoked Mocktail</h3>
+            <span class="text-amber-400 font-bold text-lg">$18</span>
+          </div>
+          <p class="text-white/60 text-sm mt-1">Applewood smoked citrus, rosemary, sparkling water.</p>
+        </div>
+        <div class="menu-item reveal">
+          <img src="https://kimi-web-img.moonshot.cn/img/www.saltpaperstudio.com/b2c94d54d6b622e3be7fe33e882f83ec7ee7fb87.jpg" alt="Seafood" />
+          <div class="flex justify-between items-start mt-3">
+            <h3 class="font-serif text-xl text-white">Seafood Platter</h3>
+            <span class="text-amber-400 font-bold text-lg">$48</span>
+          </div>
+          <p class="text-white/60 text-sm mt-1">Grilled scallops, prawns, calamari, garlic butter.</p>
+          <span class="badge-popular mt-2 inline-block">New</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="py-16 md:py-24 border-t border-white/5 section-transparent">
+      <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
+        <div class="reveal">
+          <span class="text-amber-400 text-sm tracking-[0.3em] uppercase font-cinzel">Our Story</span>
+          <h2 class="font-serif text-4xl sm:text-5xl font-bold mt-2 text-gradient-gold">Where Fire Meets Flavor</h2>
+          <p class="text-white/70 mt-4 leading-relaxed text-lg">Founded in 2014, Flame & Spice is a celebration of bold tastes, crafted by Chef Isabella Rossi. Every dish tells a story of tradition, fire, and passion.</p>
+          <div class="grid grid-cols-3 gap-4 mt-8">
+            <div class="stat-box">
+              <span class="block text-3xl font-serif text-amber-400 font-bold">10+</span>
+              <span class="text-white/50 text-xs uppercase tracking-wider">Years</span>
+            </div>
+            <div class="stat-box">
+              <span class="block text-3xl font-serif text-amber-400 font-bold">50K</span>
+              <span class="text-white/50 text-xs uppercase tracking-wider">Happy guests</span>
+            </div>
+            <div class="stat-box">
+              <span class="block text-3xl font-serif text-amber-400 font-bold">100+</span>
+              <span class="text-white/50 text-xs uppercase tracking-wider">Signature dishes</span>
+            </div>
+          </div>
+        </div>
+        <div class="about-card reveal">
+          <div class="text-7xl mb-4">👨‍🍳</div>
+          <h4 class="font-serif text-2xl text-white">Chef Isabella Rossi</h4>
+          <p class="text-amber-400/80 text-sm mt-1 italic">"Spice is the soul of every dish."</p>
+          <p class="text-white/50 text-sm mt-4 leading-relaxed">With over 20 years of culinary expertise, Chef Rossi brings the art of fire cooking to every plate. Her signature cheese pull technique has become legendary among food enthusiasts worldwide.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery" class="py-16 md:py-24 border-t border-white/5 section-transparent">
+      <div class="text-center mb-12">
+        <span class="text-amber-400 text-sm tracking-[0.3em] uppercase font-cinzel">Visual Feast</span>
+        <h2 class="font-serif text-4xl sm:text-5xl font-bold mt-2 text-gradient-gold section-title">Gallery</h2>
+      </div>
+      <div class="max-w-7xl mx-auto px-4 columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4 masonry">
+        <div class="gallery-item break-inside-avoid reveal">
+          <img src="https://kimi-web-img.moonshot.cn/img/www.saltpaperstudio.com/b25183c49f7a1c8b8cfdb1fceb3f4f7d607c7148.jpg" class="w-full h-auto" alt="Smoked Prawns" />
+          <div class="p-3">
+            <p class="text-white/80 text-sm font-serif">Smoked Spiced Prawns</p>
+          </div>
+        </div>
+        <div class="gallery-item break-inside-avoid reveal">
+          <img src="https://kimi-web-img.moonshot.cn/img/videocdn.cdnpk.net/37c8883f8f4e6bf9e37a7e88b8b1895c3ab44ad6.jpg" class="w-full h-auto" alt="Steak" />
+          <div class="p-3">
+            <p class="text-white/80 text-sm font-serif">Sizzling Ribeye</p>
+          </div>
+        </div>
+        <div class="gallery-item break-inside-avoid reveal">
+          <img src="https://kimi-web-img.moonshot.cn/img/media.craiyon.com/7a7b86d35a88a1f9442881d6a376d608cce6f982.webp" class="w-full h-auto" alt="Pizza" />
+          <div class="p-3">
+            <p class="text-white/80 text-sm font-serif">Legendary Cheese Pull</p>
+          </div>
+        </div>
+        <div class="gallery-item break-inside-avoid reveal">
+          <img src="https://kimi-web-img.moonshot.cn/img/spcdn.shortpixel.ai/b112955a1ee145be965b06305c0a87ec530344d9.jpg" class="w-full h-auto" alt="Dessert" />
+          <div class="p-3">
+            <p class="text-white/80 text-sm font-serif">Molten Lava Cake</p>
+          </div>
+        </div>
+        <div class="gallery-item break-inside-avoid reveal">
+          <img src="https://kimi-web-img.moonshot.cn/img/www.saltpaperstudio.com/b2c94d54d6b622e3be7fe33e882f83ec7ee7fb87.jpg" class="w-full h-auto" alt="Seafood" />
+          <div class="p-3">
+            <p class="text-white/80 text-sm font-serif">Gourmet Scallops</p>
+          </div>
+        </div>
+        <div class="gallery-item break-inside-avoid reveal">
+          <img src="https://kimi-web-img.moonshot.cn/img/img.freepik.com/053a1e48e9d12451ca629896bbde150c19f48812.jpg" class="w-full h-auto" alt="Burger" />
+          <div class="p-3">
+            <p class="text-white/80 text-sm font-serif">Ultra Realistic Burger</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESERVATIONS -->
+    <section id="reservations" class="py-16 md:py-24 border-t border-white/5 section-transparent">
+      <div class="max-w-2xl mx-auto px-4 text-center">
+        <span class="text-amber-400 text-sm tracking-[0.3em] uppercase font-cinzel">Book a Table</span>
+        <h2 class="font-serif text-4xl sm:text-5xl font-bold mt-2 text-gradient-gold section-title">Reserve Your Experience</h2>
+        <div class="mt-8 form-container reveal">
+          <form class="space-y-5">
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs text-white/50 uppercase tracking-wider mb-1">Date</label>
+                <input type="date" class="booking-input" />
+              </div>
+              <div>
+                <label class="block text-xs text-white/50 uppercase tracking-wider mb-1">Time</label>
+                <input type="time" class="booking-input" />
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs text-white/50 uppercase tracking-wider mb-1">Number of Guests</label>
+              <input type="number" placeholder="2" min="1" max="20" class="booking-input" />
+            </div>
+            <div>
+              <label class="block text-xs text-white/50 uppercase tracking-wider mb-1">Special Requests</label>
+              <textarea rows="2" placeholder="Any dietary needs or celebrations..." class="booking-input resize-none"></textarea>
+            </div>
+            <button type="submit" class="btn-reserve">CONFIRM RESERVATION</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="py-16 border-t border-white/5 section-transparent">
+      <div class="max-w-7xl mx-auto px-4 text-center">
+        <span class="text-amber-400 text-sm tracking-[0.3em] uppercase font-cinzel">Voices</span>
+        <h2 class="font-serif text-4xl sm:text-5xl font-bold mt-2 text-gradient-gold section-title">What Guests Say</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+          <div class="testimonial-card reveal">
+            <div class="text-amber-400 text-lg">⭐⭐⭐⭐⭐</div>
+            <p class="text-white/80 italic mt-2 leading-relaxed">"An explosion of flavors! The 3D pizza experience was mesmerizing. That cheese pull is absolutely unreal!"</p>
+            <p class="text-amber-400/60 text-sm mt-4 font-semibold">– Maria S.</p>
+          </div>
+          <div class="testimonial-card reveal">
+            <div class="text-amber-400 text-lg">⭐⭐⭐⭐⭐</div>
+            <p class="text-white/80 italic mt-2 leading-relaxed">"Best steak in town. Period. The ribeye was cooked to perfection and the ambiance is out of this world."</p>
+            <p class="text-amber-400/60 text-sm mt-4 font-semibold">– James K.</p>
+          </div>
+          <div class="testimonial-card reveal">
+            <div class="text-amber-400 text-lg">⭐⭐⭐⭐⭐</div>
+            <p class="text-white/80 italic mt-2 leading-relaxed">"The interactive menu made our dinner unforgettable. The lava cake was pure chocolate heaven."</p>
+            <p class="text-amber-400/60 text-sm mt-4 font-semibold">– Elena R.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT + FOOTER -->
+    <section id="contact" class="py-16 border-t border-white/5 section-transparent">
+      <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12">
+        <div class="reveal">
+          <span class="text-amber-400 text-sm tracking-[0.3em] uppercase font-cinzel">Connect</span>
+          <h2 class="font-serif text-4xl sm:text-5xl font-bold mt-2 text-gradient-gold">Reservations & Inquiries</h2>
+          <p class="text-white/60 mt-4 text-lg">+1 (555) 234-5678 · hello@flameandspice.com</p>
+          <div class="flex gap-4 mt-6 text-2xl">
+            <span class="bg-white/10 p-3 rounded-full hover:bg-amber-400/20 transition cursor-pointer">📱</span>
+            <span class="bg-white/10 p-3 rounded-full hover:bg-amber-400/20 transition cursor-pointer">🐦</span>
+            <span class="bg-white/10 p-3 rounded-full hover:bg-amber-400/20 transition cursor-pointer">📸</span>
+          </div>
+        </div>
+        <div class="form-container reveal">
+          <input placeholder="Name" class="booking-input mb-3" />
+          <input placeholder="Email" class="booking-input mb-3" />
+          <textarea rows="3" placeholder="Message" class="booking-input resize-none"></textarea>
+          <button class="btn-reserve mt-4">SEND MESSAGE</button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="border-t border-white/5 py-8 text-center text-white/30 text-sm flex flex-col sm:flex-row justify-between items-center gap-4 max-w-7xl mx-auto px-4 section-transparent">
+      <span class="font-cinzel">© 2026 Flame & Spice. All rights reserved.</span>
+      <span>Opening hours: Mon–Sun 5pm – 12am</span>
+      <span class="text-amber-400/50">✦ Michelin Guide 2026</span>
+    </footer>
+  </div>
+
+  <script>
+    // Scroll reveal animation
+    const reveals = document.querySelectorAll('.reveal');
+
+    const revealOnScroll = () => {
+      reveals.forEach(element => {
+        const windowHeight = window.innerHeight;
+        const elementTop = element.getBoundingClientRect().top;
+        const elementVisible = 100;
+
+        if (elementTop < windowHeight - elementVisible) {
+          element.classList.add('active');
+        }
+      });
+    };
+
+    window.addEventListener('scroll', revealOnScroll);
+    revealOnScroll();
+
+    // Create floating cheese particles
+    const createParticle = () => {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * window.innerWidth + 'px';
+      particle.style.top = Math.random() * window.innerHeight + 'px';
+      particle.style.animationDelay = Math.random() * 2 + 's';
+      particle.style.animationDuration = (3 + Math.random() * 3) + 's';
+      document.body.appendChild(particle);
+
+      setTimeout(() => particle.remove(), 6000);
+    };
+
+    setInterval(createParticle, 1000);
+
+    // Smooth scroll for navigation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>
